@@ -1,0 +1,38 @@
+name: Autograde
+
+on:
+  push:
+    paths:
+      - "labs/**/submission/**"
+      - "hack/**"
+      - ".github/workflows/grade.yml"
+  workflow_dispatch:
+    inputs:
+      lab:
+        description: "Lab path to grade (e.g. labs/core/01-pods), or 'all' for every attempted lab"
+        default: "all"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: labs
+          wait: 120s
+
+      - name: Grade attempted labs
+        env:
+          LAB_INPUT: ${{ github.event.inputs.lab }}
+        run: bash hack/grade.sh "${LAB_INPUT:-all}"
