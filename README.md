@@ -13,6 +13,14 @@ There is one repo and one branch (`main`). Labs live once in `labs/`; each track
 
 CKAD assumes the KCNA foundation; it reuses the core labs and adds application-delivery depth.
 
+## Get your own copy: Use this template
+
+Click the green **Use this template** button at the top of this repo (or [generate here](https://github.com/Cloud-Origins/africa-k8s-labs/generate)) and choose **Create a new repository** under your own account.
+
+- You get one new repository containing **all labs** (both tracks) — it is a full copy, not a per-lab download. You work through the labs inside that single repo at your own pace.
+- Autograding (GitHub Actions) is enabled automatically on a template-generated repo, so you do not need to turn anything on.
+- Prefer a fork instead? That also works, but on a fork you must open the **Actions** tab once and enable workflows before grading runs.
+
 ## How to use this repo
 
 1. Set up a local cluster: follow [SETUP.md](SETUP.md) (Docker + kind/minikube/k3d).
