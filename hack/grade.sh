@@ -52,7 +52,20 @@ for lab in "${labs[@]}"; do
   # namespace land here for isolation, while objects that pin their own namespace
   # (e.g. a lab that creates its own namespace) still apply without conflict.
   kubectl config set-context --current --namespace="$ns" >/dev/null 2>&1 || true
-  kubectl apply -f "$sub" || true
+  # Optional per-lab setup hook: installs prerequisite tooling (a service mesh,
+  # cert-manager, an operator, etc.) into the cluster before the learner's work
+  # is applied. Runs only if the lab ships a setup.sh.
+  if [ -f "$lab/setup.sh" ]; then
+    echo "Running setup.sh for $rel ..."
+    bash "$lab/setup.sh" "$ns" || echo "setup.sh reported an error (continuing)"
+  fi
+  # Apply the learner's submission. Use kustomize (-k) when a kustomization is
+  # present, otherwise apply the raw manifests (-f).
+  if [ -f "$sub/kustomization.yaml" ] || [ -f "$sub/kustomization.yml" ]; then
+    kubectl apply -k "$sub" || true
+  else
+    kubectl apply -f "$sub" || true
+  fi
   # Wait for workloads to reconcile (image pulls, scheduling). Ready-wait covers
   # long-running pods; Jobs/completes are checked by the lab's own verify.sh.
   kubectl -n "$ns" wait --for=condition=Ready pods --all --timeout=120s >/dev/null 2>&1 || true

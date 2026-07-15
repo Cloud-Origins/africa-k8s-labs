@@ -39,12 +39,14 @@ labs/
   core/        # foundation used by BOTH tracks
   kcna/        # KCNA-specific (concepts + quiz)
   ckad/        # CKAD-specific (app delivery depth)
-  electives/   # advanced / show-off / capstone
+  electives/   # advanced / show-off / capstone + ecosystem tooling
 tracks/
   kcna.md      # ordered KCNA path
   ckad.md      # ordered CKAD path
 SETUP.md       # local cluster setup (shared)
 ```
+
+Electives are optional and cover the broader cloud native ecosystem, each with a premade starting point (install command + official quickstart): service meshes (Istio, Linkerd), networking (Cilium), GitOps (Argo CD, Flux), config (Kustomize), secrets (cert-manager, Sealed Secrets, External Secrets, Vault), policy (Kyverno, OPA Gatekeeper), security (Trivy, Falco), serverless and workflows (Knative, Tekton, Argo Workflows), observability (Prometheus/Grafana, Loki, OpenTelemetry/Jaeger), platform (Crossplane, Dapr, Backstage, Harbor), and autoscaling (HPA, KEDA, Karpenter). Most electives are graded manually on your show-off checkpoint; core labs and a few electives (e.g. Kustomize) are autograded.
 
 ## Contributing / reporting issues
 
